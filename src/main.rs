@@ -7,11 +7,8 @@ fn main() {
     system_provider::start(Arc::clone(&sys));
 
     loop {
-        let info = {
-            let s = sys.lock().unwrap();
-            system_provider::getSysInfo(&s)
-        };
-        for (i, usage) in info.cpuUsage.iter().enumerate() {
+        let sysInfo = system_provider::getSysInfo(&sys.lock().unwrap());
+        for (i, usage) in sysInfo.cpuUsage.iter().enumerate() {
             println!("CPU {} | {:.1}%", i, usage);
         }
         std::thread::sleep(std::time::Duration::from_secs(1));
